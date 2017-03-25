@@ -1,16 +1,18 @@
 import React, { Component, PropTypes as T } from 'react';
-import { View } from 'react-native';
+import { View, Animated } from 'react-native';
 import { createChainFunction } from '../utils';
 
 const noop = () => {};
 
 class SquareView extends Component {
   static propTypes = {
-    onDimension: T.func
+    onDimension: T.func,
+    animated: T.bool
   }
 
   static defaultProps = {
-    onDimension: noop
+    onDimension: noop,
+    animated: false
   }
 
   state = {
@@ -29,19 +31,21 @@ class SquareView extends Component {
   }
 
   render() {
-    const { children, style, onLayout, ...others } = this.props;
-    const handleLayout = createChainFunction(this.handleLayout, onLayout);
+    const { children, style, onLayout, animated, ...others } = this.props;
     const { dimension } = this.state;
+    const Wrapper = animated ? Animated.View : View;
+    const handleLayout = createChainFunction(this.handleLayout, onLayout);
     const external = {};
+
     if (dimension) {
       external.height = dimension;
       external.width = dimension;
     }
 
     return (
-      <View onLayout={handleLayout} style={[ style, external ]} {...others}>
+      <Wrapper onLayout={handleLayout} style={[ style, external ]} {...others}>
         {children}
-      </View>
+      </Wrapper>
     );
   }
 }

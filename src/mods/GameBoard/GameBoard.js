@@ -1,44 +1,77 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { Component, PropTypes as T } from 'react';
+import { View, Text, Animated } from 'react-native';
 import styles from './styles';
+import GameTile from '../GameTile/GameTile';
 import SquareView from '../SquareView/SquareView';
 
-const gutter = 15;
+const GUTTER_WIDTH = 15;
+const CELL_NUMBER = 16;
+const getTilePosition = (i, cellWidth, gutterWidth) => {
+  const row = Math.floor(i / 4);
+  const col = Math.floor(i % 4);
+
+  return {
+    top: gutterWidth + row * cellWidth + row * gutterWidth,
+    left: gutterWidth + col * cellWidth + col * gutterWidth
+  };
+};
 
 class GameBoard extends Component {
+  static propTypes = {
+    dataSource: T.array
+  }
+
+  static defaultProps = {
+    dataSource: []
+  }
+
   state = {
-    tileDimension: 0
+    cellDimension: 0
   }
 
   handleDimension = dimension => {
-    const tileDimension = (dimension - 5 * gutter) / 4;
+    const cellDimension = (dimension - 5 * GUTTER_WIDTH) / 4;
     this.setState({
-      tileDimension
+      cellDimension
     });
   }
 
   render() {
-    const { tileDimension } = this.state;
-    const tileDimensionStyle = {
-      width: tileDimension,
-      height: tileDimension
+    const { dataSource } = this.props;
+    const { cellDimension } = this.state;
+    const externalWrapperStyle = {};
+    if (!cellDimension) {
+      externalWrapperStyle.opacity = 0;
+    }
+    const cellDimensionStyle = {
+      width: cellDimension,
+      height: cellDimension
     };
-    const children = []
-    let i = 16;
-    while(i--) {
-      const tileStyle = [ styles.tile, tileDimensionStyle ];
+    const cellChildren = [];
+    const tileChildren = [];
+    let i = CELL_NUMBER;
+    while (i--) {
+      const cellStyle = [ styles.cell, cellDimensionStyle ];
       if (i % 4) {
-        tileStyle.push(styles.tileGutterRight);
+        cellStyle.push(styles.cellGutterRight);
       }
       if (i >= 4) {
-        tileStyle.push(styles.tileGutterBottom);
+        cellStyle.push(styles.cellGutterBottom);
       }
-      children.push(<SquareView key={i} style={tileStyle} />);
+      cellChildren.push(<SquareView key={`cell${i}`} style={cellStyle} />);
+
+      const data = dataSource[i];
+      if (data) {
+        tileChildren.push(
+          <GameTile data={data} key={`tile${i}`} style={[ styles.tile, cellDimensionStyle, getTilePosition(i, cellDimension, GUTTER_WIDTH) ]} />
+        );
+      }
     }
     
     return (
-      <SquareView style={styles.wrapper} onDimension={this.handleDimension}>
-        {children}
+      <SquareView style={[ styles.wrapper, externalWrapperStyle ]} onDimension={this.handleDimension}>
+        {cellChildren}
+        {tileChildren}
       </SquareView>
     );
   }

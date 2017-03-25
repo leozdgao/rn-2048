@@ -10,14 +10,17 @@ export default {
     paddingBottom: 15,
     backgroundColor: '#bbada0'
   },
-  tile: {
+  cell: {
     backgroundColor: 'rgba(238, 228, 218, 0.35)',
     borderRadius: 4
   },
-  tileGutterRight: {
+  cellGutterRight: {
     marginRight: 15
   },
-  tileGutterBottom: {
+  cellGutterBottom: {
     marginBottom: 15
+  },
+  tile: {
+    position: 'absolute'
   }
 };

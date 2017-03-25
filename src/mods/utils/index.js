@@ -10,3 +10,7 @@ export const createChainFunction = (...funcs) => {
     });
   }
 }
+
+export const randFloor = (min, max) => {
+  return Math.floor(min + Math.random() * (max - min));
+}
