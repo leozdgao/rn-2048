@@ -29,7 +29,8 @@ class GameBoard extends Component {
     cellDimension: 0
   }
 
-  handleDimension = dimension => {
+  handleLayout = e => {
+    const dimension = e.nativeEvent.layout.width;
     const cellDimension = (dimension - 5 * GUTTER_WIDTH) / 4;
     this.setState({
       cellDimension
@@ -69,7 +70,7 @@ class GameBoard extends Component {
     }
     
     return (
-      <SquareView style={[ styles.wrapper, externalWrapperStyle ]} onDimension={this.handleDimension}>
+      <SquareView style={[ styles.wrapper, externalWrapperStyle ]} onLayout={this.handleLayout}>
         {cellChildren}
         {tileChildren}
       </SquareView>
