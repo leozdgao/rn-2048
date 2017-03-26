@@ -6,8 +6,7 @@ export default StyleSheet.create({
     backgroundColor: '#faf8ef',
     // for statusbar
     paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20
+    paddingHorizontal: 20
   },
   instruments: {
     flexDirection: 'row',
