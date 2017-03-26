@@ -1,4 +1,6 @@
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -10,4 +12,4 @@ export default {
     fontSize: 24,
     fontWeight: 'bold'
   }
-}
+});

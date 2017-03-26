@@ -5,8 +5,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 8,
-    marginBottom: 8
+    marginVertical: 8
   },
   title: {
     fontSize: 36,

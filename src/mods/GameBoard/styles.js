@@ -1,13 +1,12 @@
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 32,
     borderRadius: 6,
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingLeft: 15,
-    paddingBottom: 15,
+    padding: 15,
     backgroundColor: '#bbada0'
   },
   cell: {
@@ -23,4 +22,4 @@ export default {
   tile: {
     position: 'absolute'
   }
-};
+});

@@ -1,4 +1,6 @@
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: '#faf8ef',
@@ -15,4 +17,4 @@ export default {
     flex: 1,
     color: '#776e65'
   }
-};
+});
