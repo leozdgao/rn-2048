@@ -84,7 +84,7 @@ class Game extends Component {
           <GameHead title="2048" score={score} bestScore={bestScore} />
         </View>
         <View style={styles.instruments}>
-          <Text style={styles.instrumentsText}>Join the numbers and get to the 2048 tile!</Text>
+          <Text style={styles.instrumentsText}>Join the numbers and get to <Text style={styles.strongText}>the 2048 tile!</Text></Text>
           <GameButton onPress={this.handleButtonPress}>New Game</GameButton>
         </View>
         <View style={styles.gameBoradWrapper}>

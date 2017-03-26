@@ -16,6 +16,10 @@ export default StyleSheet.create({
     flex: 1,
     color: '#776e65'
   },
+  strongText: {
+    color: '#776e65',
+    fontWeight: 'bold'
+  },
   gameHeadWrapper: {
     flex: 2,
     justifyContent: 'center'
