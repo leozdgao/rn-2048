@@ -5,7 +5,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 4,
     backgroundColor: '#8f7a66',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    paddingVertical: 8
   },
   text: {
     fontWeight: 'bold',

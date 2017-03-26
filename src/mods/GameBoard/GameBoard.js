@@ -3,6 +3,7 @@ import { View, Text, Animated } from 'react-native';
 import styles from './styles';
 import GameTile from '../GameTile/GameTile';
 import SquareView from '../SquareView/SquareView';
+import { createChainFunction } from '../utils';
 
 const GUTTER_WIDTH = 15;
 const CELL_NUMBER = 16;
@@ -29,6 +30,10 @@ class GameBoard extends Component {
     cellDimension: 0
   }
 
+  measure = (cb) => {
+    this._root.measure(cb);
+  }
+
   handleLayout = e => {
     const dimension = e.nativeEvent.layout.width;
     const cellDimension = (dimension - 5 * GUTTER_WIDTH) / 4;
@@ -38,7 +43,8 @@ class GameBoard extends Component {
   }
 
   render() {
-    const { dataSource } = this.props;
+    const { dataSource, onLayout, ...others } = this.props;
+    const handleLayout = createChainFunction(this.handleLayout, onLayout);
     const { cellDimension } = this.state;
     const externalWrapperStyle = {};
     if (!cellDimension) {
@@ -70,7 +76,7 @@ class GameBoard extends Component {
     }
     
     return (
-      <SquareView style={[ styles.wrapper, externalWrapperStyle ]} onLayout={this.handleLayout}>
+      <SquareView ref={root => { this._root = root; }} style={[ styles.wrapper, externalWrapperStyle ]} onLayout={handleLayout} {...others}>
         {cellChildren}
         {tileChildren}
       </SquareView>

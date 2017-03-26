@@ -3,25 +3,32 @@ import { View, Animated } from 'react-native';
 
 const noop = () => {};
 
-const SquareView = props => {
-  const { children, style, animated, ...others } = props;
-  const Wrapper = animated ? Animated.View : View;
-  const external = {
-    aspectRatio: 1
+class SquareView extends Component {
+  static propTypes = {
+    animated: T.bool
   };
 
-  return (
-    <Wrapper style={[ style, external ]} {...others}>
-      {children}
-    </Wrapper>
-  );
-}
+  static defaultProps = {
+    animated: false
+  };
 
-SquareView.propTypes = {
-  animated: T.bool
-};
-SquareView.defaultProps = {
-  animated: false
-};
+  measure = (cb) => {
+    this._root.measure(cb);
+  }
+
+  render() {
+    const { children, style, animated, ...others } = this.props;
+    const Wrapper = animated ? Animated.View : View;
+    const external = {
+      aspectRatio: 1
+    };
+
+    return (
+      <Wrapper ref={root => { this._root = root; }} style={[ style, external ]} {...others}>
+        {children}
+      </Wrapper>
+    );
+  }
+}
 
 export default SquareView;

@@ -4,6 +4,7 @@ import styles from './styles';
 import GameHead from '../../mods/GameHead/GameHead';
 import GameButton from '../../mods/GameButton/GameButton';
 import GameBoard from '../../mods/GameBoard/GameBoard';
+import GameOver from '../../mods/GameOver/GameOver';
 import { randFloor } from '../../mods/utils';
 
 const getRandomAvailablePosition = (slut) => {
@@ -18,7 +19,8 @@ class Game extends Component {
     this.state = {
       score: 0,
       bestScore: 0,
-      boardData: []
+      boardData: [],
+      isGameOver: false
     };
   }
 
@@ -41,7 +43,8 @@ class Game extends Component {
 
   startGame() {
     this.setState({
-      boardData: []
+      boardData: [],
+      isGameOver: false
     }, () => {
       this.initSlut();
       const initCellPosition = [
@@ -55,6 +58,17 @@ class Game extends Component {
       this.setState({
         boardData
       });
+      // generateNextTile
+      this.clr = setInterval(() => {
+        if (this.slut.length > 0) {
+          this.generateNextTile();
+        } else {
+          this.setState({
+            isGameOver: true
+          });
+          clearInterval(this.clr);
+        }
+      }, 1000);
     });
   }
 
@@ -62,21 +76,22 @@ class Game extends Component {
     this.startGame();
   }
 
+  handleBoardLayout = e => {
+    const { width } = e.nativeEvent.layout;
+    this._gameboard.measure((dx, dy) => {
+      this._gameoverStyle = {
+        top: dy,
+        width
+      };
+    });
+  }
+
   componentDidMount() {
     this.startGame();
-
-    this.clr = setInterval(() => {
-      if (this.slut.length > 0) {
-        this.generateNextTile();
-      } else {
-        alert('Game Over');
-        clearInterval(this.clr);
-      }
-    }, 1000);
   }
 
   render() {
-    const { score, bestScore, boardData } = this.state;
+    const { score, bestScore, boardData, isGameOver } = this.state;
 
     return (
       <View style={styles.wrapper}>
@@ -84,11 +99,17 @@ class Game extends Component {
           <GameHead title="2048" score={score} bestScore={bestScore} />
         </View>
         <View style={styles.instruments}>
-          <Text style={styles.instrumentsText}>Join the numbers and get to <Text style={styles.strongText}>the 2048 tile!</Text></Text>
+          <Text style={styles.instrumentsText}>
+            Join the numbers and get to <Text style={styles.strongText}>the 2048 tile!</Text>
+          </Text>
           <GameButton onPress={this.handleButtonPress}>New Game</GameButton>
         </View>
         <View style={styles.gameBoradWrapper}>
-          <GameBoard dataSource={boardData} />
+          <GameBoard ref={c => { this._gameboard = c; }} dataSource={boardData} onLayout={this.handleBoardLayout} />
+          {isGameOver && (
+            <GameOver ref={c => { this._gameoverBackdrop = c; }} style={this._gameoverStyle}
+              onRetry={this.handleButtonPress} onLayout={this.handleGameOverLayout} />
+          )}
         </View>
       </View>
     );
