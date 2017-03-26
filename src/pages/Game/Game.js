@@ -80,12 +80,16 @@ class Game extends Component {
 
     return (
       <View style={styles.wrapper}>
-        <GameHead title="2048" score={score} bestScore={bestScore} />
+        <View style={styles.gameHeadWrapper}>
+          <GameHead title="2048" score={score} bestScore={bestScore} />
+        </View>
         <View style={styles.instruments}>
           <Text style={styles.instrumentsText}>Join the numbers and get to the 2048 tile!</Text>
           <GameButton onPress={this.handleButtonPress}>New Game</GameButton>
         </View>
-        <GameBoard dataSource={boardData} />
+        <View style={styles.gameBoradWrapper}>
+          <GameBoard dataSource={boardData} />
+        </View>
       </View>
     );
   }

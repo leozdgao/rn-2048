@@ -15,5 +15,13 @@ export default StyleSheet.create({
   instrumentsText: {
     flex: 1,
     color: '#776e65'
+  },
+  gameHeadWrapper: {
+    flex: 2,
+    justifyContent: 'center'
+  },
+  gameBoradWrapper: {
+    flex: 10,
+    justifyContent: 'center'
   }
 });
