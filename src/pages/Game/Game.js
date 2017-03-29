@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableHighlight, PanResponder } from 'react-native';
 import styles from './styles';
 import GameHead from '../../mods/GameHead/GameHead';
 import GameButton from '../../mods/GameButton/GameButton';
 import GameBoard from '../../mods/GameBoard/GameBoard';
 import GameOver from '../../mods/GameOver/GameOver';
 import { randFloor } from '../../mods/utils';
+import { getDirectionFromGesture } from '../../mods/utils/gesture';
 
 const getRandomAvailablePosition = (slut) => {
   const value = randFloor(0, slut.length - 1);
@@ -86,6 +87,27 @@ class Game extends Component {
     });
   }
 
+  // ==== responder ====
+
+  shouldSetResponder() {
+    return true;
+  }
+
+  handleResponderEnd(e, gestrue) {
+    const direction = getDirectionFromGesture(gestrue);
+
+    console.log(direction);
+  }
+
+  // ==== lifecycle ====
+
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponderCapture: this.shouldSetResponder,
+      onPanResponderEnd: this.handleResponderEnd
+    });
+  }
+
   componentDidMount() {
     this.startGame();
   }
@@ -104,7 +126,7 @@ class Game extends Component {
           </Text>
           <GameButton onPress={this.handleButtonPress}>New Game</GameButton>
         </View>
-        <View style={styles.gameBoradWrapper}>
+        <View style={styles.gameBoradWrapper} {...this._panResponder.panHandlers}>
           <GameBoard ref={c => { this._gameboard = c; }} dataSource={boardData} onLayout={this.handleBoardLayout} />
           {isGameOver && (
             <GameOver ref={c => { this._gameoverBackdrop = c; }} style={this._gameoverStyle}
