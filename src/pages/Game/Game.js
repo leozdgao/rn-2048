@@ -5,13 +5,10 @@ import GameHead from '../../mods/GameHead/GameHead';
 import GameButton from '../../mods/GameButton/GameButton';
 import GameBoard from '../../mods/GameBoard/GameBoard';
 import GameOver from '../../mods/GameOver/GameOver';
-import { randFloor } from '../../mods/utils';
 import { getDirectionFromGesture } from '../../mods/utils/gesture';
+import Game from '../../mods/game';
 
-const getRandomAvailablePosition = (slut) => {
-  const value = randFloor(0, slut.length - 1);
-  return slut.splice(value, 1);
-}
+const TILE_COUNT = 4;
 
 class Game extends Component {
   constructor(props, context) {
@@ -23,13 +20,8 @@ class Game extends Component {
       boardData: [],
       isGameOver: false
     };
-  }
 
-  initSlut = () => {
-    this.slut = [];
-    for (let i = 0, l = 16; i < l; i++) {
-      this.slut.push(i);
-    }
+    this.game = new Game(TILE_COUNT);
   }
 
   generateNextTile() {
@@ -111,6 +103,8 @@ class Game extends Component {
   componentDidMount() {
     this.startGame();
   }
+
+  // ==== render ====
 
   render() {
     const { score, bestScore, boardData, isGameOver } = this.state;

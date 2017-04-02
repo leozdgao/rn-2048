@@ -1,5 +1,5 @@
 export const getDirectionFromGesture = gesture => {
-  const { dx, dy } = gestrue;
+  const { dx, dy } = gesture;
   let direction;
   // horizontally
   if (Math.abs(dx) >= Math.abs(dy)) {
